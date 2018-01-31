@@ -42,29 +42,32 @@ export default class App extends React.Component {
         super()
 
         this.state = {
-           result: null,
-           operator: null,
-           left: null,
-           right: null,
+            result: null,
+            operator: null,
+            left: null,
+            right: null,
 
         };
-        this.setLabel=this.setLabel.bind(this);
-        this.handleAddition=this.handleAddition.bind(this);
-        this.handleSoustraction=this.handleSoustraction.bind(this);
-        this.handleDivision=this.handleDivision.bind(this);
-        this.handleMultiplication=this.handleMultiplication.bind(this);
-        this.handleValider=this.handleValider.bind(this);
-        
+
+        this.handleAddition = this.handleAddition.bind(this);
+        this.handleSoustraction = this.handleSoustraction.bind(this);
+        this.handleDivision = this.handleDivision.bind(this);
+        this.handleMultiplication = this.handleMultiplication.bind(this);
+        this.handleValider = this.handleValider.bind(this);
+
     }
-    componentDidMount(){
-        
-                
-              // ca mérite 20 moi je dis
-                    
-                }
+    componentDidMount() {
 
 
-    handleAddition (){
+        //  document.getElementById('mainList').addEventListener('click', function(e){ 
+        //   var initElem = e.target; 
+
+        //console.log(e.target.innerText); 
+        //  });   
+    }
+
+
+    handleAddition() {
         console.log('addition');
         const label = document.getElementById('labelo');
         this.setState({
@@ -73,12 +76,9 @@ export default class App extends React.Component {
             console.log(this.state.operator)
         });
 
-        
-      
-
     }
 
-    handleDivision(){
+    handleDivision() {
         console.log('division');
         const label = document.getElementById('labelo');
         this.setState({
@@ -89,7 +89,7 @@ export default class App extends React.Component {
 
     }
 
-    handleMultiplication () {
+    handleMultiplication() {
 
         console.log('multi');
         const label = document.getElementById('labelo');
@@ -102,7 +102,7 @@ export default class App extends React.Component {
 
     }
 
-    handleSoustraction () {
+    handleSoustraction() {
 
         console.log('soustraction');
         const label = document.getElementById('labelo');
@@ -114,7 +114,7 @@ export default class App extends React.Component {
 
     }
 
-    handleValider(){
+    handleValider() {
 
         console.log('left', this.state.left)
         console.log('right', this.state.right)
@@ -124,82 +124,112 @@ export default class App extends React.Component {
 
         var final = null;
 
-        if(this.state.operator === '+'){
+        if (this.state.operator === '+') {
             final = left + right
         }
 
-        else if(this.state.operator === '-'){
+        else if (this.state.operator === '-') {
             final = left - right
         }
 
-        else if(this.state.operator === '/'){
+        else if (this.state.operator === '/') {
             final = left / right
         }
 
-        else if(this.state.operator === '*'){
+        else if (this.state.operator === '*') {
             final = left * right
         }
 
         const label = document.getElementById('labelo');
         label.innerText = final;
 
-        this.setState({left: null})
-        this.setState({right: null})
-        this.setState({operator: null})
-        this.setState({result: null})
+        this.setState({ left: null })
+        this.setState({ right: null })
+        this.setState({ operator: null })
+        this.setState({ result: null })
 
-        
+
 
         console.log(final)
 
-}
-    setLabel(chiffre){
+    }
 
-        const label = document.getElementById('labelo');
+
+    mainFunc(e) {
+        console.log(e.target.innerText)
+
+
 
       
+        var find = /^[0-9]*$/.test(e.target.innerText);
+        if (find) {
 
-        if(this.state.operator === null){
-            this.setState({left: chiffre})
+            if (this.state.operator === null) {
+                this.setState({ left: e.target.innerText })
+            } else {
+                this.setState({ right: e.target.innerText })
+            }
+
+
         }else{
-            this.setState({right: chiffre})
+          
+            if(e.target.innerText === '+'){
+                this.handleAddition();
+            }
+            if(e.target.innerText === '='){
+                this.handleValider();
+            }
+            if(e.target.innerText === '-'){
+                this.handleSoustraction();
+            }
+            if(e.target.innerText === '*'){
+                this.handleMultiplication();
+            }
+            if(e.target.innerText === '/'){
+                this.handleDivision();
+            }
+
+            
         }
-      
-       
+
+
+
+
+
 
     }
 
-  render() {
-   
-    return (
-        
-     <Div>
-        <h1>Magic Calculator Premium</h1>
-<DivOperator>
-        <Button onClick={this.handleAddition}>+</Button>
-        <Button onClickn={this.handleSoustraction}>-</Button>
-        <Button onClick={this.handleMultiplication}>*</Button>
-        <Button onClick={this.handleDivision}>/</Button>
-        <Button onClick={this.handleValider}>=</Button>
-     </DivOperator>   
-   
-    
-          <Button onClick={() => this.setLabel(0)}>0</Button>
-          <Button onClick={() => this.setLabel(1)}>1</Button>
-          <Button onClick={() => this.setLabel(2)}>2</Button>
-          <Button onClick={() => this.setLabel(3)}>3</Button>
-          <Button onClick={() => this.setLabel(4)}>4</Button>
-          <Button onClick={() => this.setLabel(5)}>5</Button>
-          <Button onClick={() => this.setLabel(6)}>6</Button>
-          <Button onClick={() => this.setLabel(7)}>7</Button>
-          <Button onClick={() => this.setLabel(8)}>8</Button>
-          <Button onClick={() => this.setLabel(9)}>9</Button>      
-                       
-      
+    render() {
+
+        return (
+
+            <Div id='mainList' onClick={this.mainFunc.bind(this)}>
+                <h1>Magic Calculator Premium</h1>
+                <DivOperator id='operator'>
+                    <Button>+</Button>
+                    <Button>-</Button>
+                    <Button>*</Button>
+                    <Button>/</Button>
+                    <Button>=</Button>
+                </DivOperator>
+
+                <div id='list'>
+                    <Button >0</Button>
+                    <Button>1</Button>
+                    <Button>2</Button>
+                    <Button>3</Button>
+                    <Button>4</Button>
+                    <Button>5</Button>
+                    <Button>6</Button>
+                    <Button>7</Button>
+                    <Button>8</Button>
+                    <Button>9</Button>
+
+                </div>
 
 
-        <ResultBox id='labelo'>{this.state.result}</ResultBox>
+                <ResultBox id='labelo'>{this.state.result}</ResultBox>
 
-      </Div>);
-  }
+            </Div>);
+    }
 }
